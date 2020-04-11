@@ -2,7 +2,10 @@
     "name": "NR-GarageDoor",
     "description": "Node-RED App using Blynk for Remote Garage Door Opener",
     "version": "0.0.1",
-    "dependencies": {},
+    "dependencies": {
+        "node-red-contrib-blynk-ws": "1.0.3",
+        "node-red-node-pi-gpio": "1.0.9"
+    },
     "node-red": {
         "settings": {
             "flowFile": "flows_garagedoor.json",
