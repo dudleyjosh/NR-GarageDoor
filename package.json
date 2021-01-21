@@ -4,7 +4,8 @@
     "version": "0.0.1",
     "dependencies": {
         "node-red-contrib-blynk-ws": "1.0.3",
-        "node-red-node-pi-gpio": "1.0.9"
+        "node-red-node-pi-gpio": "1.0.9",
+        "node-red-contrib-homebridge-automation": "0.0.72"
     },
     "node-red": {
         "settings": {
