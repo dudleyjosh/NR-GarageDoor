@@ -90,6 +90,27 @@
         "h": 222
     },
     {
+        "id": "87148ca7.4d46a",
+        "type": "group",
+        "z": "60964c6a.0f7cec",
+        "name": "Check Door Sensor",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "93ab7eeb.f324",
+            "faaaf635.165d28",
+            "91c66d3b.60382",
+            "69a2719d.8b279",
+            "e7096300.5d87e",
+            "8de3d8dd.e918c8"
+        ],
+        "x": 34,
+        "y": 619,
+        "w": 752,
+        "h": 162
+    },
+    {
         "id": "fc93b9f.1b53748",
         "type": "blynk-ws-client",
         "name": "",
@@ -114,6 +135,13 @@
         "id": "20c64501.bd75da",
         "type": "hb-conf",
         "username": "347-85-621"
+    },
+    {
+        "id": "fd6ae5c1.795a28",
+        "type": "twilio-api",
+        "name": "Garage Door",
+        "sid": "AC81162e78733116ba62967cfc0b31b97d",
+        "from": "+16149023667"
     },
     {
         "id": "dd95e9ea.e8d23",
@@ -168,10 +196,12 @@
         "z": "60964c6a.0f7cec",
         "g": "b93b8e27.6ef5",
         "name": "",
-        "func": "if (msg.payload == 0) {\n    return [{pin: 1, payload: 0}, {pin: 2, payload: 1023}];\n} else {\n    return [{pin: 1, payload: 1023}, {pin: 2, payload: 0}];\n}",
+        "func": "if (msg.payload == 0) {\n    flow.set(\"DOOR_1\", \"CLOSED\");\n    return [{pin: 1, payload: 0}, {pin: 2, payload: 1023}];\n} else {\n    flow.set(\"DOOR_1\", \"OPEN\");\n    return [{pin: 1, payload: 1023}, {pin: 2, payload: 0}];\n}",
         "outputs": 2,
         "noerr": 0,
-        "x": 310,
+        "initialize": "",
+        "finalize": "",
+        "x": 320,
         "y": 420,
         "wires": [
             [
@@ -576,10 +606,12 @@
         "z": "60964c6a.0f7cec",
         "g": "b93b8e27.6ef5",
         "name": "",
-        "func": "if (msg.payload == 0) {\n    return [{pin: 4, payload: 0}, {pin: 5, payload: 1023}];\n} else {\n    return [{pin: 4, payload: 1023}, {pin: 5, payload: 0}];\n}",
+        "func": "if (msg.payload == 0) {\n    flow.set(\"DOOR_2\", \"CLOSED\");\n    return [{pin: 4, payload: 0}, {pin: 5, payload: 1023}];\n} else {\n    flow.set(\"DOOR_2\", \"OPEN\");\n    return [{pin: 4, payload: 1023}, {pin: 5, payload: 0}];\n}",
         "outputs": 2,
         "noerr": 0,
-        "x": 310,
+        "initialize": "",
+        "finalize": "",
+        "x": 320,
         "y": 520,
         "wires": [
             [
@@ -836,5 +868,143 @@
         "x": 380,
         "y": 260,
         "wires": []
+    },
+    {
+        "id": "93ab7eeb.f324",
+        "type": "inject",
+        "z": "60964c6a.0f7cec",
+        "g": "87148ca7.4d46a",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "60",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "DOOR_1",
+        "payload": "DOOR_1",
+        "payloadType": "flow",
+        "x": 160,
+        "y": 660,
+        "wires": [
+            [
+                "91c66d3b.60382"
+            ]
+        ]
+    },
+    {
+        "id": "faaaf635.165d28",
+        "type": "inject",
+        "z": "60964c6a.0f7cec",
+        "g": "87148ca7.4d46a",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "60",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "DOOR_2",
+        "payload": "DOOR_2",
+        "payloadType": "flow",
+        "x": 160,
+        "y": 740,
+        "wires": [
+            [
+                "91c66d3b.60382"
+            ]
+        ]
+    },
+    {
+        "id": "91c66d3b.60382",
+        "type": "moment",
+        "z": "60964c6a.0f7cec",
+        "g": "87148ca7.4d46a",
+        "name": "HH:mm",
+        "topic": "",
+        "input": "",
+        "inputType": "date",
+        "inTz": "America/New_York",
+        "adjAmount": 0,
+        "adjType": "days",
+        "adjDir": "add",
+        "format": "HH:mm",
+        "locale": "en-US",
+        "output": "time",
+        "outputType": "msg",
+        "outTz": "America/New_York",
+        "x": 340,
+        "y": 700,
+        "wires": [
+            [
+                "8de3d8dd.e918c8"
+            ]
+        ]
+    },
+    {
+        "id": "69a2719d.8b279",
+        "type": "debug",
+        "z": "60964c6a.0f7cec",
+        "g": "87148ca7.4d46a",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 690,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "e7096300.5d87e",
+        "type": "twilio out",
+        "z": "60964c6a.0f7cec",
+        "g": "87148ca7.4d46a",
+        "twilio": "fd6ae5c1.795a28",
+        "twilioType": "sms",
+        "url": "",
+        "number": "+16143025674",
+        "name": "",
+        "x": 690,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "8de3d8dd.e918c8",
+        "type": "function",
+        "z": "60964c6a.0f7cec",
+        "g": "87148ca7.4d46a",
+        "name": "Check Status",
+        "func": "const door = msg.topic;\nconst status = msg.payload;\n\nmsg.alert = (status === \"OPEN\") ? true : false;\n\nif (msg.alert === true && msg.time === \"22:30\") {\n    msg.payload = `Garage [${door}] is ${status}`;\n} else {\n    return null;\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 520,
+        "y": 700,
+        "wires": [
+            [
+                "e7096300.5d87e",
+                "69a2719d.8b279"
+            ]
+        ]
     }
 ]
